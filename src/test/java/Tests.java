@@ -20,7 +20,7 @@ public class Tests {
 
     @BeforeTest
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/Users/elena/Git/selenium_example_project/bin/chromedriver");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/bin/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--disable-infobars");
