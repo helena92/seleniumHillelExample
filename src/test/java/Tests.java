@@ -42,15 +42,15 @@ public class Tests {
         Assert.assertTrue(signInHeaders.size() != 0);
     }
 
-    @Parameters({"username"})
+    @Parameters({"username", "password"})
     @Test(priority = 2)
-    public void testSuccessLogin(String username) {
+    public void testSuccessLogin(String username, String pwd) {
         WebElement emailField = driver.findElement(By.id("email"));
         emailField.clear();
         emailField.sendKeys(username);
         WebElement pwdField = driver.findElement(By.id("password"));
         pwdField.clear();
-        pwdField.sendKeys("hillelproject123");
+        pwdField.sendKeys(pwd);
         pwdField.submit();
         WebElement userName = (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(By.id("team_menu_user_name")));
         Assert.assertEquals(userName.getText(), "elena");
