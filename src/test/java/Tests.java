@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -28,9 +29,10 @@ public class Tests {
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
+    @Parameters({"baseURL"})
     @Test(priority = 1)
-    public void testFindingTeam() {
-        driver.get("https://slack.com");
+    public void testFindingTeam(String url) {
+        driver.get(url);
         WebElement signInLink = driver.findElement(By.linkText("Sign in"));
         signInLink.click();
         WebElement teamName = driver.findElement(By.name("domain"));
@@ -40,24 +42,12 @@ public class Tests {
         Assert.assertTrue(signInHeaders.size() != 0);
     }
 
-//    @Test(priority = 2)
-//    public void testFailureLogin() {
-//        WebElement emailField = driver.findElement(By.id("email"));
-//        emailField.clear();
-//        emailField.sendKeys("elena.chornobai@gmail.com");
-//        WebElement pwdField = driver.findElement(By.id("password"));
-//        pwdField.clear();
-//        pwdField.sendKeys("test");
-//        pwdField.submit();
-//        WebElement error = driver.findElement(By.cssSelector("p.alert.alert_error"));
-//        Assert.assertEquals(error.getText(), "Sorry, you entered an incorrect email address or password.");
-//    }
-
-    @Test(priority = 3)
-    public void testSuccessLogin() {
+    @Parameters({"username"})
+    @Test(priority = 2)
+    public void testSuccessLogin(String username) {
         WebElement emailField = driver.findElement(By.id("email"));
         emailField.clear();
-        emailField.sendKeys("elena.chornobai@gmail.com");
+        emailField.sendKeys(username);
         WebElement pwdField = driver.findElement(By.id("password"));
         pwdField.clear();
         pwdField.sendKeys("hillelproject123");
@@ -66,7 +56,7 @@ public class Tests {
         Assert.assertEquals(userName.getText(), "elena");
     }
 
-    @Test(priority = 4, dependsOnMethods = {"testSuccessLogin"})
+    @Test(priority = 3, dependsOnMethods = {"testSuccessLogin"})
     public void testOpenAdminSection() {
         WebElement teamMenu = driver.findElement(By.id("team_menu"));
         teamMenu.click();
